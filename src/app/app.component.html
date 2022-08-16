@@ -1,0 +1,9 @@
+<ng-container *ngIf="loading$ | async">
+  <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
+
+</ng-container>
+<nav>
+  <a [routerLink]="'lazy'">Lazy</a>
+  <a [routerLink]="'test'">test</a>
+</nav>
+<router-outlet></router-outlet>

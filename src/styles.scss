@@ -1,0 +1,69 @@
+// A theme is a collection of 3 palettes primary,accent,warn
+// A pallete represnts a color portion and is represented as Sass Map
+// a pallete has hues with identifiers 
+// 50,100 ,200,300,400,500,600,700,800,900
+//& nested sass map named constrast with same identifiers
+//basically constrast is used as color when that hue is used as background
+
+
+//Step1  
+@use '@angular/material' as mat;
+//Include the core mixin only once & this contains prerequisite styles
+// for many features such as ripples
+//The core mixin must be included exactly once for your application, 
+//even if you define multiple themes.
+//Including the core mixin multiple times will result in duplicate CSS in your application.
+@include mat.core();
+
+
+//Step2 => defining Theme
+// Constructing the theme first requires defining your primary and accent palettes, 
+// with an optional warn palette. 
+//The define-palette Sass function accepts a color palette, 
+
+$my-primary: mat.define-palette(mat.$indigo-palette, 500);
+$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The "warn" palette is optional and defaults to red if not specified.
+$my-warn: mat.define-palette(mat.$red-palette);
+
+//You can construct a theme by calling either define-light-theme or define-dark-theme 
+//with the result from define-palette. The choice of a light versus a dark theme 
+//determines the background and foreground colors used throughout the components.
+
+$light-theme: mat.define-light-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent,
+   warn: $my-warn,
+ )
+));
+
+//These mixins behave the same as individual component mixins, 
+//except they emit styles for core-theme and all 35+ components in Angular Material. 
+//Unless your application uses every single component, this will produce unnecessary CSS.
+// @include mat.all-component-themes($light-theme);
+
+
+//Step-4  Lets define Dark Theme
+
+$dark-primary: mat.define-palette(mat.$pink-palette);
+$dark-accent: mat.define-palette(mat.$blue-grey-palette);
+$dark-warn: mat.define-palette(mat.$red-palette);
+$dark-theme: mat.define-dark-theme((
+ color: (
+   primary: $dark-primary,
+   accent: $dark-accent,
+   warn:$dark-warn
+ )
+));
+@include mat.all-component-themes($light-theme);
+$border-color:'black';
+
+.my-dark-theme{
+  @include mat.all-component-themes($dark-theme);
+  $border-color:'white';
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
